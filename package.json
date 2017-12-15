@@ -1,0 +1,13 @@
+{
+  "name": "refresh-sample",
+  "version": "1.0.0",
+  "description": "sample of Service Worker refresh UI",
+  "main": "sw.js",
+  "scripts": {
+    "start": "http-server -p 8000 -c0"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^0.10.0"
+  }
+}
