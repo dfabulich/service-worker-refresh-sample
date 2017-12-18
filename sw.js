@@ -13,6 +13,7 @@ addEventListener('fetch', e => {
 });
 
 addEventListener('activate', e => {
+  clients.claim();
   e.waitUntil(caches.keys().then(keys => {
     return Promise.all(keys.map(key => {
       if (key != v) return caches.delete(key);
