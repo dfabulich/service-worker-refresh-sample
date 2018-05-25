@@ -5,11 +5,18 @@ addEventListener('install', e => e.waitUntil(
 
 addEventListener('fetch', e => {
   console.log('fetch', e.request);
-  e.respondWith(
-    caches.match(e.request).then(cachedResponse =>
-      cachedResponse || fetch(e.request)
-    )
-  );
+  e.respondWith((async () => {
+    if (e.request.mode === "navigate" &&
+      e.request.method === "GET" &&
+      registration.waiting &&
+      (await clients.matchAll()).length < 2
+    ) {
+      registration.waiting.postMessage('skipWaiting');
+      return new Response("", {headers: {"Refresh": "0"}});
+    }
+    return await caches.match(e.request) ||
+      fetch(e.request);
+  })());
 });
 
 addEventListener('activate', e => {
