@@ -54,8 +54,11 @@ function onNewServiceWorker(registration, callback) {
 }
 
 window.addEventListener('load', function() {
+  var refreshing;
   // When the user asks to refresh the UI, we'll need to reload the window
   navigator.serviceWorker.addEventListener('controllerchange', function(event) {
+    if (refreshing) return; // prevent infinite refresh loop when you use "Update on Reload"
+    refreshing = true;
     console.log('Controller loaded');
     window.location.reload();
   });
